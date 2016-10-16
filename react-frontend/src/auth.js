@@ -3,6 +3,7 @@ import ajaxFetch, { useHeader, unUseHeader } from './ajax';
 // use local storage for the JWT token
 const storage = window.localStorage;
 const storageKey = 'jwt';
+const headerKey = 'JWT';
 
 function saveToken(jwtToken) {
   // first put in local storage
@@ -36,19 +37,19 @@ export function login(username, password) {
     saveToken(json.token);
 
     // finally, authorize other requests with the jwt!
-    useHeader('JWT', getToken());
+    useHeader(headerKey, getToken());
   });
 }
 
 export function logout() {
   localStorage.removeItem(storageKey);
-  unUseHeader('JWT');
+  unUseHeader(headerKey);
 }
 
 export function restoreAuth() {
   if (isLoggedIn()) {
 
     // reapply the header to authorize future requests
-    useHeader('JWT', getToken());
+    useHeader(headerKey, getToken());
   } 
 }
