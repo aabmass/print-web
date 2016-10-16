@@ -1,4 +1,4 @@
-// any imports may go here
+import ajaxFetch, { useHeader } from './ajax';
 
 // use local storage for the JWT token
 const storage = window.localStorage;
@@ -25,9 +25,8 @@ export function isLoggedIn() {
 }
 
 export function login(username, password) {
-  return fetch('/api/auth/login', {
+  return ajaxFetch('/api/auth/login', {
     method: "POST",
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username, password })
   }).then(response => response.json()).then(json => {
     saveToken(json.token);
