@@ -5,6 +5,7 @@ import './App.css';
 import LoginPanel from './LoginPanel';
 
 import * as auth from './auth';
+import ajaxFetch from './ajax';
 
 class App extends Component {
   constructor(props) {
@@ -17,6 +18,9 @@ class App extends Component {
         username: ''
       }
     };
+
+    // try and restore the auth from localStorage before the first render
+    auth.restoreAuth();
 
     // event handlers
     this.handleLogin = this.handleLogin.bind(this);
@@ -49,6 +53,10 @@ class App extends Component {
     this.setState(this.computeAuthState());
   }
 
+  doAjax() {
+    ajaxFetch('api/somebackendroute');
+  }
+
   render() {
     return (
       <div className="App">
@@ -65,6 +73,8 @@ class App extends Component {
           handleLogout={this.handleLogout}
           isLoggedIn={this.state.isLoggedIn}
         />
+
+        <button onClick={() => this.doAjax()}>Do some AJAX</button>
       </div>
     );
   }

@@ -1,4 +1,4 @@
-import ajaxFetch, { useHeader } from './ajax';
+import ajaxFetch, { useHeader, unUseHeader } from './ajax';
 
 // use local storage for the JWT token
 const storage = window.localStorage;
@@ -11,12 +11,16 @@ function saveToken(jwtToken) {
   // compute the token's payload for username/password
 }
 
+function getToken() {
+  return storage.getItem(storageKey);
+}
+
 export let user = {
 
 };
 
 export function isLoggedIn() {
-  const token = storage.getItem(storageKey);
+  const token = getToken();
 
   // If there is a token in the storage, we are logged in.
   // Note, this doesn't mean it isn't expired or invalid!
@@ -30,9 +34,21 @@ export function login(username, password) {
     body: JSON.stringify({ username, password })
   }).then(response => response.json()).then(json => {
     saveToken(json.token);
+
+    // finally, authorize other requests with the jwt!
+    useHeader('JWT', getToken());
   });
 }
 
 export function logout() {
   localStorage.removeItem(storageKey);
+  unUseHeader('JWT');
+}
+
+export function restoreAuth() {
+  if (isLoggedIn()) {
+
+    // reapply the header to authorize future requests
+    useHeader('JWT', getToken());
+  } 
 }
