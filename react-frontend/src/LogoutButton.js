@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { Button } from 'semantic-ui-react';
 
 class LogoutButton extends Component {
   render() {
     return (
-      <button onClick={this.props.handleLogout}>Logout</button>
+      <Button primary onClick={this.props.handleLogout}>Logout</Button>
     );
   }
 }

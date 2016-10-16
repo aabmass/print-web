@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
+import { Container, Grid, Button } from 'semantic-ui-react'
 import LoginPanel from './LoginPanel';
+import Body from './Body';
 
 import * as auth from './auth';
 import ajaxFetch from './ajax';
@@ -59,23 +60,24 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload. Jokes
-        </p>
+      <Container>
+        <Grid columns={2} divided>
+          <Grid.Row>
+            <Grid.Column>
+              <LoginPanel
+                handleLogin={this.handleLogin}
+                handleLogout={this.handleLogout}
+                isLoggedIn={this.state.isLoggedIn}
+              />
+              <Button onClick={() => this.doAjax()}>Do some AJAX</Button>
+            </Grid.Column>
 
-        <LoginPanel
-          handleLogin={this.handleLogin}
-          handleLogout={this.handleLogout}
-          isLoggedIn={this.state.isLoggedIn}
-        />
-
-        <button onClick={() => this.doAjax()}>Do some AJAX</button>
-      </div>
+            <Grid.Column>
+              <Body />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </Container>
     );
   }
 }
