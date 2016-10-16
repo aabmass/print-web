@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
-import { login } from './Auth.js';
+import { login, isLoggedIn } from './Auth.js';
 
 class LoginForm extends Component {
-  initialState = {username: "", password: ""}
+  initialState() {
+    return {
+      username: '',
+      password: '',
+      isLoggedIn: isLoggedIn()
+    };
+  }
 
   constructor(props) {
     super(props);
-    // this.state = {username: "", password: ""};
-    this.state = this.initialState;
+    this.state = this.initialState();
 
     // set up event handlers
     this.handleUsername = this.handleInputEvent.bind(this, "username");
@@ -25,12 +30,13 @@ class LoginForm extends Component {
     event.preventDefault();
 
     let {username, password} = this.state;
-    login(username, password);
-
-    this.setState(this.initialState);
+    login(username, password).then(() => {
+      this.setState(this.initialState());
+    });
   }
 
   render() {
+    console.log(this.state.isLoggedIn);
     return (
       <div className="LoginForm">
         <form onSubmit={this.handleSubmit}>
@@ -48,6 +54,7 @@ class LoginForm extends Component {
           />
           <input type="submit" value="Login"/>
         </form>
+        <p>{this.state.isLoggedIn ? 'YAY Logged In!' : ''}</p>
       </div>
     );
   }
