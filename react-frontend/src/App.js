@@ -2,9 +2,61 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import LoginForm from './LoginForm.js';
+import LoginPanel from './LoginPanel';
+
+import * as auth from './auth';
+import ajaxFetch from './ajax';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    // initial state
+    this.state = {
+      isLoggedIn: false,
+      user: {
+        username: ''
+      }
+    };
+
+    // try and restore the auth from localStorage before the first render
+    auth.restoreAuth();
+
+    // event handlers
+    this.handleLogin = this.handleLogin.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
+  }
+
+  componentDidMount() {
+    // modify the state based on non-pure inputs here
+    this.setState(this.computeAuthState());
+  }
+
+  computeAuthState() {
+    let newState = this.state;
+    newState.isLoggedIn = auth.isLoggedIn();
+    newState.user = auth.user;
+
+    return newState;
+  }
+
+  /* callbacks */
+  handleLogin(username, password) {
+    auth.login(username, password).then(() => {
+      this.setState(this.computeAuthState());
+    });
+  }
+
+  handleLogout() {
+    auth.logout();
+
+    this.setState(this.computeAuthState());
+  }
+
+  doAjax() {
+    ajaxFetch('api/somebackendroute');
+  }
+
   render() {
     return (
       <div className="App">
@@ -16,7 +68,13 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload. Jokes
         </p>
 
-        <LoginForm />
+        <LoginPanel
+          handleLogin={this.handleLogin}
+          handleLogout={this.handleLogout}
+          isLoggedIn={this.state.isLoggedIn}
+        />
+
+        <button onClick={() => this.doAjax()}>Do some AJAX</button>
       </div>
     );
   }
