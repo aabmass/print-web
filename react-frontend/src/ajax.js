@@ -37,7 +37,9 @@ export default function ajaxFetch(endpoint, init = {}) {
     // reject if status isn't ok for all fetch's. This is not fetch's default
     // behavior, but it will now behave that way to users of this function
     if (!response.ok) {
-      throw Error(response.statusText);
+      let err = Error(response.statusText);
+      err.response = response;
+      throw err;
     }
 
     return response;

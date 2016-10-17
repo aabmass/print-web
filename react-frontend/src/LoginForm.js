@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Form, Button } from 'semantic-ui-react'
+import { Form, Button, Message } from 'semantic-ui-react'
 
 const initialState = {
-  username: '',
-  password: ''
+  errors: null
 };
 
 class LoginForm extends Component {
@@ -20,16 +19,28 @@ class LoginForm extends Component {
     event.preventDefault();
 
     let {username, password} = serializedForm;
-    this.props.handleLogin(username, password);
+    this.props.handleLogin(username, password).catch((error) => {
+      return error.response.json();
+    }).then(json => {
+      this.setState({ errors: json.non_field_errors });
+    });
   }
 
   render() {
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form error={this.state.errors} onSubmit={this.handleSubmit}>
         <Form.Input icon="user" label="Username" name="username" type="text" />
         <Form.Input icon="lock" label="Password" name="password" type="password" />
         <Button primary type='submit'>Login</Button>
+
+        {this.state.errors ?
+          <Message
+            error
+            header={this.state.errors[0]}
+            content={this.state.errors[0]}
+          /> : null}
       </Form>
+
     );
   }
 }

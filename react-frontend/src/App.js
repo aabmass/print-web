@@ -43,7 +43,8 @@ class App extends Component {
 
   /* callbacks */
   handleLogin(username, password) {
-    auth.login(username, password).then(() => {
+    // a promise
+    return auth.login(username, password).then(() => {
       this.setState(this.computeAuthState());
     });
   }
