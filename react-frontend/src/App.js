@@ -15,9 +15,7 @@ class App extends Component {
     // initial state
     this.state = {
       isLoggedIn: false,
-      user: {
-        username: ''
-      }
+      user: {}
     };
 
     // try and restore the auth from localStorage before the first render
@@ -69,8 +67,10 @@ class App extends Component {
                 handleLogin={this.handleLogin}
                 handleLogout={this.handleLogout}
                 isLoggedIn={this.state.isLoggedIn}
+                user={this.state.user}
               />
             </Grid.Column>
+
             <Grid.Column>
               <Button onClick={() => this.doAjax()}>Do some AJAX</Button>
             </Grid.Column>
