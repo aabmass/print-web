@@ -26,8 +26,8 @@ class LoginForm extends Component {
   render() {
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Form.Input label="Username" name="username" type="text" />
-        <Form.Input label="Password" name="password" type="password" />
+        <Form.Input icon="user" label="Username" name="username" type="text" />
+        <Form.Input icon="lock" label="Password" name="password" type="password" />
         <Button primary type='submit'>Login</Button>
       </Form>
     );

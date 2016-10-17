@@ -60,8 +60,8 @@ class App extends Component {
 
   render() {
     return (
-      <Container>
-        <Grid columns={2} divided>
+      <Container className="app">
+        <Grid columns={3} divided>
           <Grid.Row>
             <Grid.Column>
               <LoginPanel
@@ -69,6 +69,8 @@ class App extends Component {
                 handleLogout={this.handleLogout}
                 isLoggedIn={this.state.isLoggedIn}
               />
+            </Grid.Column>
+            <Grid.Column>
               <Button onClick={() => this.doAjax()}>Do some AJAX</Button>
             </Grid.Column>
 
