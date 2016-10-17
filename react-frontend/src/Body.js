@@ -12,7 +12,7 @@ class Body extends Component {
 
   loadData() {
     ajaxFetch('/api/prints').then(response => response.json()).then(json => {
-      this.setState({ recentPrints: json.prints });
+      this.setState({ recentPrints: json });
     });
   }
 
@@ -21,19 +21,20 @@ class Body extends Component {
   }
 
   render() {
-    let feedEvents = this.state.recentPrints.map(p => (
-      <Feed.Event>
+    let feedEvents = this.state.recentPrints.map((p, index) => (
+      <Feed.Event key={index}>
         <Feed.Label>
           <img src='http://semantic-ui.com/images/avatar/small/elliot.jpg' alt=""/>
         </Feed.Label>
         <Feed.Content>
           <Feed.Summary>
-            <Feed.User>Elliot Fu</Feed.User> added you as a friend
-            <Feed.Date>1 Hour Ago</Feed.Date>
+            <Feed.User>{this.props.user.username}</Feed.User> printed on
+            <Feed.Date>{p.last_printed}</Feed.Date>
           </Feed.Summary>
         </Feed.Content>
       </Feed.Event>
     ));
+
     return (
       <Feed>
         {feedEvents}
