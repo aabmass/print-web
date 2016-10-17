@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { Card } from 'semantic-ui-react'
+import { Card, Button } from 'semantic-ui-react'
 import LoginForm from './LoginForm';
-import LogoutButton from './LogoutButton';
 
 // a react function component
 class LoginPanel extends Component {
   render() {
     let body = undefined;
 
-    if (this.props.isLoggedIn) {
+    let isLoggedIn = this.props.user.isLoggedIn;
+
+    if (isLoggedIn) {
       let { username, email } = this.props.user;
       body = (
         <Card>
@@ -16,9 +17,7 @@ class LoginPanel extends Component {
             <Card.Header>{username}</Card.Header>
             <Card.Meta>{email}</Card.Meta>
           </Card.Content>
-          <LogoutButton
-            handleLogout={this.props.handleLogout}
-          />
+          <Button onClick={this.props.handleLogout}>Logout</Button>
         </Card>
       );
     }
@@ -26,7 +25,7 @@ class LoginPanel extends Component {
       body = (
         <LoginForm
           handleLogin={this.props.handleLogin}
-          isLoggedIn={this.props.isLoggedIn}
+          isLoggedIn={isLoggedIn}
         />
       );
     }

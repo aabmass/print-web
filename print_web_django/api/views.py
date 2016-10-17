@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from . import serializers, models
 
-# Create your views here.
+
+class PrintJobViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.PrintJobSerializer
+
+    def get_queryset(self):
+        return self.request.user.printjobs.all()

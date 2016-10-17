@@ -1,3 +1,14 @@
+from django.contrib.auth.models import User
 from django.db import models
 
-# Create your models here.
+
+class PrintJob(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE,
+            related_name="printjobs")
+    created = models.DateTimeField(auto_now_add=True,)
+    last_printed = models.DateTimeField()
+
+    # file will go here
+
+    def __str__(self):
+        return "PrintJob by {} from {}".format(self.user, self.created)
