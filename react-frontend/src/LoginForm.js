@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Form, Button } from 'semantic-ui-react'
 
 const initialState = {
   username: '',
@@ -12,46 +13,23 @@ class LoginForm extends Component {
     this.state = initialState;
 
     // set up event handlers
-    this.handleUsername = this.handleInputEvent.bind(this, "username");
-    this.handlePassword = this.handleInputEvent.bind(this, "password");
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleInputEvent(stateName, event) {
-    let newState = {};
-    newState[stateName] = event.target.value;
-    this.setState(newState);
-  }
-
-  handleSubmit(event) {
+  handleSubmit(event, serializedForm) {
     event.preventDefault();
 
-    let {username, password} = this.state;
-
-    // call the callback passed in from above in the higher components
+    let {username, password} = serializedForm;
     this.props.handleLogin(username, password);
   }
 
   render() {
     return (
-      <div className="LoginForm">
-        <form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            placeholder="Username"
-            value={this.state.username}
-            onChange={this.handleUsername}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={this.state.password}
-            onChange={this.handlePassword}
-          />
-          <input type="submit" value="Login"/>
-        </form>
-        <p>{this.props.isLoggedIn ? 'YAY Logged In!' : ''}</p>
-      </div>
+      <Form onSubmit={this.handleSubmit}>
+        <Form.Input icon="user" label="Username" name="username" type="text" />
+        <Form.Input icon="lock" label="Password" name="password" type="password" />
+        <Button primary type='submit'>Login</Button>
+      </Form>
     );
   }
 }
