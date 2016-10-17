@@ -4,7 +4,7 @@ from rest_framework import routers
 from . import views
 
 router = routers.DefaultRouter(trailing_slash=False)
-router.register(r'prints', views.PrintJobViewSet)
+router.register(r'prints', views.PrintJobViewSet, base_name='prints')
 
 urlpatterns = [
     url(r'^', include(router.urls)),
