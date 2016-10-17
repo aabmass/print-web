@@ -18,12 +18,12 @@ function getToken() {
 }
 
 export let user = {
-  
+  isLoggedIn: isLoggedIn()
 };
 
 function loadUserFromJWT(jwt) {
   let { email, username } = jwtDecode(jwt);
-  user = { email, username };
+  user = { email, username, isLoggedIn: isLoggedIn() };
 }
 
 export function isLoggedIn() {
@@ -51,6 +51,7 @@ export function login(username, password) {
 export function logout() {
   localStorage.removeItem(storageKey);
   unUseHeader(headerKey);
+  user = { isLoggedIn: false };
 }
 
 export function restoreAuth() {

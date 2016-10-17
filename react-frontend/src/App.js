@@ -14,8 +14,9 @@ class App extends Component {
 
     // initial state
     this.state = {
-      isLoggedIn: false,
-      user: {}
+      user: {
+        isLoggedIn: false
+      }
     };
 
     // try and restore the auth from localStorage before the first render
@@ -32,11 +33,7 @@ class App extends Component {
   }
 
   computeAuthState() {
-    let newState = this.state;
-    newState.isLoggedIn = auth.isLoggedIn();
-    newState.user = auth.user;
-
-    return newState;
+    return { user: auth.user };
   }
 
   /* callbacks */
@@ -60,13 +57,12 @@ class App extends Component {
   render() {
     return (
       <Container className="app">
-        <Grid columns={3} divided>
+        <Grid columns={2} divided>
           <Grid.Row>
             <Grid.Column>
               <LoginPanel
                 handleLogin={this.handleLogin}
                 handleLogout={this.handleLogout}
-                isLoggedIn={this.state.isLoggedIn}
                 user={this.state.user}
               />
             </Grid.Column>
@@ -74,12 +70,9 @@ class App extends Component {
             <Grid.Column>
               <Button onClick={() => this.doAjax()}>Do some AJAX</Button>
             </Grid.Column>
-
-            <Grid.Column>
-              <Body />
-            </Grid.Column>
           </Grid.Row>
         </Grid>
+        {this.state.user.isLoggedIn ? <Body user={this.state.user} /> : null}
       </Container>
     );
   }
