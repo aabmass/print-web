@@ -1,4 +1,5 @@
 import ajaxFetch, { useHeader, unUseHeader } from './ajax';
+import jwtDecode from 'jwt-decode';
 
 // use local storage for the JWT token
 const storage = window.localStorage;
@@ -17,8 +18,13 @@ function getToken() {
 }
 
 export let user = {
-
+  
 };
+
+function loadUserFromJWT(jwt) {
+  let { email, username } = jwtDecode(jwt);
+  user = { email, username };
+}
 
 export function isLoggedIn() {
   const token = getToken();
@@ -35,6 +41,7 @@ export function login(username, password) {
     body: JSON.stringify({ username, password })
   }).then(response => response.json()).then(json => {
     saveToken(json.token);
+    loadUserFromJWT(json.token);
 
     // finally, authorize other requests with the jwt!
     useHeader(headerKey, getToken());
@@ -48,8 +55,11 @@ export function logout() {
 
 export function restoreAuth() {
   if (isLoggedIn()) {
+    const token = getToken();
+
+    loadUserFromJWT(token);
 
     // reapply the header to authorize future requests
-    useHeader(headerKey, getToken());
+    useHeader(headerKey, token);
   } 
 }

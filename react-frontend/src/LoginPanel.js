@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Card } from 'semantic-ui-react'
 import LoginForm from './LoginForm';
 import LogoutButton from './LogoutButton';
 
@@ -8,10 +9,17 @@ class LoginPanel extends Component {
     let body = undefined;
 
     if (this.props.isLoggedIn) {
+      let { username, email } = this.props.user;
       body = (
-        <LogoutButton
-          handleLogout={this.props.handleLogout}
-        />
+        <Card>
+          <Card.Content>
+            <Card.Header>{username}</Card.Header>
+            <Card.Meta>{email}</Card.Meta>
+          </Card.Content>
+          <LogoutButton
+            handleLogout={this.props.handleLogout}
+          />
+        </Card>
       );
     }
     else {
