@@ -34,7 +34,10 @@ class Body extends Component {
 
     return fileIsImage ? (
       <Feed.Extra images>
-        <Image src={print.file_uploaded} />
+        <Image
+          src={print.file_uploaded} href={print.file_uploaded}
+          shape="rounded" bordered target="_blank"
+        />
       </Feed.Extra>
     ) : (
       <Feed.Extra>
@@ -47,22 +50,21 @@ class Body extends Component {
     let feedEvents = this.state.recentPrints.map((print, index) => {
       return (
         <Feed.Event key={index}>
-          <Feed.Label>
-            <Image src={avatar} />
-          </Feed.Label>
+          <Feed.Label image={avatar} />
           <Feed.Content>
             <Feed.Summary>
               <Feed.User>{this.props.user.username}</Feed.User> printed on
               <Feed.Date>{print.last_printed}</Feed.Date>
             </Feed.Summary>
+            {/* renders a Feed.Extra */}
+            {this.renderUploadFile(print)}
           </Feed.Content>
-          {this.renderUploadFile(print)}
         </Feed.Event>
       );
     });
 
     return (
-      <Feed>
+      <Feed size="large">
         {feedEvents}
       </Feed>
     )
