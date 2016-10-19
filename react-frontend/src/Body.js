@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Feed } from 'semantic-ui-react'
+import { Feed, Image } from 'semantic-ui-react'
 import ajaxFetch from './ajax';
+import avatar from './img/elliot.jpg';
 
 class Body extends Component {
   constructor(props) {
@@ -24,7 +25,7 @@ class Body extends Component {
     let feedEvents = this.state.recentPrints.map((p, index) => (
       <Feed.Event key={index}>
         <Feed.Label>
-          <img src='http://semantic-ui.com/images/avatar/small/elliot.jpg' alt=""/>
+          <Image src={avatar} />
         </Feed.Label>
         <Feed.Content>
           <Feed.Summary>
