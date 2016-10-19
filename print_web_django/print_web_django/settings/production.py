@@ -5,6 +5,7 @@ from .base import *
 DEBUG = False
 SECRET_KEY = os.environ['SECRET_KEY']
 STATIC_ROOT = os.environ['STATIC_ROOT']
+MEDIA_ROOT = os.environ['STATIC_ROOT']
 
 # I think more setup is required to force HTTPS
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

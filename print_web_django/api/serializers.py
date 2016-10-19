@@ -5,4 +5,4 @@ from . import models
 class PrintJobSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.PrintJob
-        fields = ('created', 'last_printed')
+        fields = ('created', 'last_printed', 'file_uploaded')
