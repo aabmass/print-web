@@ -68,7 +68,7 @@ class App extends Component {
             </Grid.Column>
 
             <Grid.Column>
-              <Button onClick={() => this.doAjax()}>Do some AJAX</Button>
+              <Button onClick={() => this.doAjax()}>Perform Useless 404 Ajax</Button>
             </Grid.Column>
           </Grid.Row>
         </Grid>
