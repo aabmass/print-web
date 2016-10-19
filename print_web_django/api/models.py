@@ -7,8 +7,7 @@ class PrintJob(models.Model):
             related_name="printjobs")
     created = models.DateTimeField(auto_now_add=True,)
     last_printed = models.DateTimeField()
-
-    # file will go here
+    file_uploaded = models.FileField()
 
     def __str__(self):
         return "PrintJob by {} from {}".format(self.user, self.created)
