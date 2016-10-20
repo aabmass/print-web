@@ -17,7 +17,7 @@ class LoginPanel extends Component {
             <Card.Header>{username}</Card.Header>
             <Card.Meta>{email}</Card.Meta>
           </Card.Content>
-          <Button onClick={this.props.handleLogout}>Logout</Button>
+          <Button primary onClick={this.props.handleLogout}>Logout</Button>
         </Card>
       );
     }
