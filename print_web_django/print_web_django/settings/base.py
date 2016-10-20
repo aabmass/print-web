@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'api',
 
     'rest_framework',
+    'django_pam',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -129,6 +130,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
 
 ############### OTHER OPTIONS ###############
+
+AUTHENTICATION_BACKENDS = [
+  'django_pam.auth.backends.PAMBackend',
+  'django.contrib.auth.backends.ModelBackend',
+]
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
