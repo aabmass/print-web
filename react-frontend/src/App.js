@@ -4,6 +4,7 @@ import './App.css';
 import { Container, Grid, Button } from 'semantic-ui-react'
 import LoginPanel from './LoginPanel';
 import Body from './Body';
+import PrintJobForm from './PrintJobForm';
 
 import * as auth from './auth';
 import ajaxFetch from './ajax';
@@ -78,7 +79,7 @@ class App extends Component {
               {this.state.user.isLoggedIn ? <Body user={this.state.user} /> : null}
             </Grid.Column>
             <Grid.Column>
-              {/* goodies here */}
+              <PrintJobForm />
             </Grid.Column>
           </Grid.Row>
 
