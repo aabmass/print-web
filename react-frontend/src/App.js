@@ -58,7 +58,6 @@ class App extends Component {
     return (
       <Container className="app">
         <Grid columns={2} divided>
-
           <Grid.Row>
             <Grid.Column>
               <LoginPanel
@@ -72,17 +71,9 @@ class App extends Component {
               <Button onClick={() => this.doAjax()}>Perform Useless 404 Ajax</Button>
             </Grid.Column>
           </Grid.Row>
-
-          <Grid.Row>
-            <Grid.Column>
-              {this.state.user.isLoggedIn ? <Body user={this.state.user} /> : null}
-            </Grid.Column>
-            <Grid.Column>
-              {/* goodies here */}
-            </Grid.Column>
-          </Grid.Row>
-
         </Grid>
+
+        {this.state.user.isLoggedIn ? <Body user={this.state.user} /> : null}
       </Container>
     );
   }

@@ -1,6 +1,5 @@
 let attachHeaders = {
   // some defaults
-  'Content-Type': 'application/json'
 };
 
 /**
@@ -16,14 +15,11 @@ export function unUseHeader(headerKey) {
 }
 
 /**
- * This just wraps fetch (we are using the polyfill) in order to insert default
- * headers. For instance, specifiying json content and authorizing requests
- * with the auth headers.
- *
- * This function also wraps an error handler to cause the promise to reject if
- * the status is not "ok".
+ * Call this function in specific overriding calls such as ajaxFetch() below
+ * does. This function also wraps an error handler to cause the promise to
+ * reject if the status is not "ok".
  */
-export default function ajaxFetch(endpoint, init = {}) {
+function fetchInjectHeaders(endpoint, init = {}) {
   let headers = init.headers || {};
 
   // add in the default properties not already assigned
@@ -44,4 +40,27 @@ export default function ajaxFetch(endpoint, init = {}) {
 
     return response;
   });
+}
+
+/**
+ * This just wraps fetch (we are using the polyfill) in order to insert
+ * default headers for JSON."ok".
+ */
+export default function ajaxFetch(endpoint, init = {}) {
+  let headers = init.headers || {};
+  headers['Content-Type'] = 'application/json';
+  init.headers = headers;
+
+  return fetchInjectHeaders(endpoint, init);
 };
+
+export function multipartFetch(endpoint, init = {}) {
+  let headers = init.headers || {};
+
+  // for multipart, need to remove content type header
+  delete headers['Content-Type'];
+  init.headers = headers;
+
+  return fetchInjectHeaders(endpoint, init);
+}
+

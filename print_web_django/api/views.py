@@ -7,3 +7,7 @@ class PrintJobViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return self.request.user.printjobs.all()
+
+    def perform_create(self, serializer):
+        # need to also pass the requests user on a create
+        serializer.save(user=self.request.user)

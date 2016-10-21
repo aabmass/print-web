@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Feed, Image } from 'semantic-ui-react'
+import { Feed, Image, Grid } from 'semantic-ui-react'
+import PrintJobForm from './PrintJobForm';
 import ajaxFetch from './ajax';
 import avatar from './img/elliot.jpg';
 
@@ -7,13 +8,22 @@ class Body extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      recentPrints: []
+      prints: []
     }
+  }
+
+  appendPrint = (print) => {
+    // put new print at the front
+    this.state.prints.unshift(print);
+
+    this.setState({
+      prints: this.state.prints
+    });
   }
 
   loadData() {
     ajaxFetch('/api/prints').then(response => response.json()).then(json => {
-      this.setState({ recentPrints: json });
+      this.setState({ prints: json });
     });
   }
 
@@ -47,7 +57,7 @@ class Body extends Component {
   }
 
   render() {
-    let feedEvents = this.state.recentPrints.map((print, index) => {
+    let feedEvents = this.state.prints.map((print, index) => {
       return (
         <Feed.Event key={index}>
           <Feed.Label image={avatar} />
@@ -64,9 +74,19 @@ class Body extends Component {
     });
 
     return (
-      <Feed size="large">
-        {feedEvents}
-      </Feed>
+      <Grid columns={2} divided>
+        <Grid.Row>
+          <Grid.Column>
+            <Feed size="large">
+              {feedEvents}
+            </Feed>
+          </Grid.Column>
+
+          <Grid.Column>
+            <PrintJobForm onPrintCreate={this.appendPrint} />
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     )
   }
 }
