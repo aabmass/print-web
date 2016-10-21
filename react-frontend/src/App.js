@@ -4,7 +4,6 @@ import './App.css';
 import { Container, Grid, Button } from 'semantic-ui-react'
 import LoginPanel from './LoginPanel';
 import Body from './Body';
-import PrintJobForm from './PrintJobForm';
 
 import * as auth from './auth';
 import ajaxFetch from './ajax';
@@ -59,7 +58,6 @@ class App extends Component {
     return (
       <Container className="app">
         <Grid columns={2} divided>
-
           <Grid.Row>
             <Grid.Column>
               <LoginPanel
@@ -73,17 +71,9 @@ class App extends Component {
               <Button onClick={() => this.doAjax()}>Perform Useless 404 Ajax</Button>
             </Grid.Column>
           </Grid.Row>
-
-          <Grid.Row>
-            <Grid.Column>
-              {this.state.user.isLoggedIn ? <Body user={this.state.user} /> : null}
-            </Grid.Column>
-            <Grid.Column>
-              <PrintJobForm />
-            </Grid.Column>
-          </Grid.Row>
-
         </Grid>
+
+        {this.state.user.isLoggedIn ? <Body user={this.state.user} /> : null}
       </Container>
     );
   }
