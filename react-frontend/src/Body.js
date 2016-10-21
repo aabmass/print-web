@@ -12,6 +12,15 @@ class Body extends Component {
     }
   }
 
+  appendPrint = (print) => {
+    // put new print at the front
+    this.state.prints.unshift(print);
+
+    this.setState({
+      prints: this.state.prints
+    });
+  }
+
   loadData() {
     ajaxFetch('/api/prints').then(response => response.json()).then(json => {
       this.setState({ prints: json });
@@ -74,7 +83,7 @@ class Body extends Component {
           </Grid.Column>
 
           <Grid.Column>
-            <PrintJobForm />
+            <PrintJobForm onPrintCreate={this.appendPrint} />
           </Grid.Column>
         </Grid.Row>
       </Grid>

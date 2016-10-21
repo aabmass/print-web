@@ -7,7 +7,7 @@ class PrintJobForm extends Component {
     super(props);
     this.state = {
       fileChosen: null,
-      errors: null
+      errors: []
     };
   }
 
@@ -19,15 +19,26 @@ class PrintJobForm extends Component {
     multipartFetch('api/prints', {
       method: 'POST',
       body: formData
-    }, false).then(res => res.json()).then(json => {
+    }, false)
 
-    }).then(() => {
-      this.setState({ fileChosen: null, errors: null });
-    }).catch(error => {
-      return error.response.json().then(json => {
-        this.setState({ errors: json.non_field_errors });
+      .then(res => res.json())
+
+      .then(print => {
+        this.props.onPrintCreate(print);
+        this.setState({ fileChosen: null, errors: [] });
+        return print;
+      })
+
+      .catch(error => {
+        return error.response.json().then(json => {
+          let errors = [].concat(json.non_field_errors || [])
+            .concat(json.file_uploaded || []);
+          this.setState({
+            fileChosen: null,
+            errors
+          });
+        });
       });
-    });
   }
 
   triggerFileInput = (event) => {
@@ -48,7 +59,7 @@ class PrintJobForm extends Component {
 
   render() {
     return (
-      <Form onSubmit={this.onSubmit}>
+      <Form error={this.state.errors.length > 0} onSubmit={this.onSubmit}>
         <Form.Field>
           <label>Choose a File</label>
           { /* unfortunately, this triggers the form tosubmit and the button
@@ -62,7 +73,6 @@ class PrintJobForm extends Component {
           </Button>
         </Form.Field>
         <Form.Button primary>Submit</Form.Button>
-
 
         {this.state.errors ?
           <Message
