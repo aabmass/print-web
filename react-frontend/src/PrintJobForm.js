@@ -1,27 +1,49 @@
 import React, { Component } from 'react';
-import { Form, /* Message */ } from 'semantic-ui-react'
+import { Form, Button, Icon, Message } from 'semantic-ui-react'
 import { multipartFetch } from './ajax';
 
 class PrintJobForm extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {};
+    this.state = {
+      fileChosen: null,
+      errors: null
+    };
   }
 
-  onSubmit(event, serializedData) {
+  onSubmit = (event, serializedData) => {
     event.preventDefault();
     let formData = new FormData(event.target);
-    console.log(formData);
 
     // post the form to the db
     multipartFetch('api/prints', {
       method: 'POST',
       body: formData
     }, false).then(res => res.json()).then(json => {
-      // give json response data to a callback to update state in root
-      // component here!
+
+    }).then(() => {
+      this.setState({ fileChosen: null, errors: null });
+    }).catch(error => {
+      return error.response.json().then(json => {
+        this.setState({ errors: json.non_field_errors });
+      });
     });
+  }
+
+  triggerFileInput = (event) => {
+    event.preventDefault();
+
+    // trigger a click on the hidden file dialog
+    this.refs.fileInput.click();
+  }
+
+  openFileDialog = (event) => {
+    // let default action occur, but don't bubble event back up!
+    event.stopPropagation();
+  }
+
+  userChoseFile = event => {
+    this.setState({ fileChosen: event.target.files[0].name });
   }
 
   render() {
@@ -29,9 +51,25 @@ class PrintJobForm extends Component {
       <Form onSubmit={this.onSubmit}>
         <Form.Field>
           <label>Choose a File</label>
-          <input type="file" name="file_uploaded" />
+          { /* unfortunately, this triggers the form tosubmit and the button
+            click. See event handler */ }
+          <Button icon onClick={this.triggerFileInput}>
+            <Icon name="file" />
+            <input type="file" ref="fileInput" style={{display: 'none'}}
+              name="file_uploaded" onClick={this.openFileDialog}
+              onChange={this.userChoseFile} />
+            {this.state.fileChosen || "Upload a File"}
+          </Button>
         </Form.Field>
-        <Form.Button>Submit</Form.Button>
+        <Form.Button primary>Submit</Form.Button>
+
+
+        {this.state.errors ?
+          <Message
+            error
+            header={this.state.errors[0]}
+            content={this.state.errors[0]}
+          /> : null}
       </Form>
     );
   }
