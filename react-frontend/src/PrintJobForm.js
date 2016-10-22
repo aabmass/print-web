@@ -74,7 +74,9 @@ class PrintJobForm extends Component {
           <label>Choose a File</label>
           { /* unfortunately, this triggers the form tosubmit and the button
             click. See event handler */ }
-          <Button icon loading={this.state.isUploading} onClick={this.triggerFileInput}>
+          <Button basic color="violet" loading={this.state.isUploading}
+            onClick={this.triggerFileInput}>
+
             <Icon name="file" />
             <input type="file" ref="fileInput" style={{display: 'none'}}
               name="file_uploaded" onClick={this.openFileDialog}
@@ -82,7 +84,7 @@ class PrintJobForm extends Component {
             {this.state.fileChosen || "Upload a File"}
           </Button>
         </Form.Field>
-        <Form.Button primary>Submit</Form.Button>
+        <Form.Button primary disabled={this.state.isUploading}>Submit</Form.Button>
 
         {this.state.errors ?
           <Message
