@@ -125,7 +125,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # copy the react app from it's build dir
-STATICFILES_DIRS = os.path.join(BASE_DIR, '..', 'react-frontend', 'build')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, '..', 'react-frontend', 'build'),
+]
 
 # User uploads (media)
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
