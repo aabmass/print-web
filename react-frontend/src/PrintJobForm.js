@@ -7,13 +7,18 @@ class PrintJobForm extends Component {
     super(props);
     this.state = {
       fileChosen: null,
-      errors: []
+      errors: [],
+      isUploading: false
     };
   }
 
   onSubmit = (event, serializedData) => {
     event.preventDefault();
     let formData = new FormData(event.target);
+
+    let newState = this.state;
+    newState.isUploading = true;
+    this.setState(newState);
 
     // post the form to the db
     multipartFetch('api/prints', {
@@ -25,7 +30,11 @@ class PrintJobForm extends Component {
 
       .then(print => {
         this.props.onPrintCreate(print);
-        this.setState({ fileChosen: null, errors: [] });
+        this.setState({
+          fileChosen: null,
+          errors: [],
+          isUploading: false
+        });
         return print;
       })
 
@@ -35,7 +44,8 @@ class PrintJobForm extends Component {
             .concat(json.file_uploaded || []);
           this.setState({
             fileChosen: null,
-            errors
+            errors,
+            isUploading: false
           });
         });
       });
@@ -64,7 +74,7 @@ class PrintJobForm extends Component {
           <label>Choose a File</label>
           { /* unfortunately, this triggers the form tosubmit and the button
             click. See event handler */ }
-          <Button icon onClick={this.triggerFileInput}>
+          <Button icon loading={this.state.isUploading} onClick={this.triggerFileInput}>
             <Icon name="file" />
             <input type="file" ref="fileInput" style={{display: 'none'}}
               name="file_uploaded" onClick={this.openFileDialog}
