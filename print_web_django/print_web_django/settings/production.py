@@ -11,7 +11,8 @@ MEDIA_ROOT = os.environ['MEDIA_ROOT']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 ALLOWED_HOSTS = [
-    'aabmass.it.cx'
+    'aabmass.it.cx',
+    'aabmass.com',
 ]
 
 CSRF_COOKIE_SECURE = True
