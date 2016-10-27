@@ -33,7 +33,11 @@ const PrintJobDetail = (props) => {
         </Card.Meta>
       </Card.Content>
       <Card.Content extra>
-        <Button color="green" labelPosition="left" icon="print" content="Print" />
+        <Button.Group>
+          <Button color="green" labelPosition="left" icon="print" content="Print" />
+          <Button.Or />
+          <Button color="red" labelPosition="right" icon="delete" content="Delete" />
+        </Button.Group>
       </Card.Content>
     </Card>
   ); 
