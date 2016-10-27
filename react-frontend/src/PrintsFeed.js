@@ -29,9 +29,11 @@ class PrintsFeed extends Component {
   }
 
   renderFeedEvents() {
+    const onClickPrintJob = (index) => () => this.props.onChooseSelectedJob(index);
+
     return this.props.prints.map((print, index) => {
       return (
-        <ClickableFeedEvent enabled={(index & 1) === 1} key={index}>
+        <ClickableFeedEvent key={index} onClick={onClickPrintJob(index)}>
           <Feed.Label image={avatar} />
           <Feed.Content>
             <Feed.Summary>

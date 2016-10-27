@@ -35,12 +35,17 @@ class Body extends Component {
     this.loadData();
   }
 
+  onChooseSelectedJob = (index) => {
+    this.setState(objectAssign({}, this.state, { selectedPrint: index }))
+  }
+
   render() {
     return (
       <Grid columns={2} divided>
         <Grid.Row>
           <Grid.Column>
-            <PrintsFeed prints={this.state.prints} user={this.props.user} />
+            <PrintsFeed prints={this.state.prints} user={this.props.user}
+              onChooseSelectedJob={this.onChooseSelectedJob}/>
           </Grid.Column>
 
           <Grid.Column>
