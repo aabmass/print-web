@@ -33,7 +33,7 @@ const PrintJobDetail = (props) => {
         </Card.Meta>
       </Card.Content>
       <Card.Content extra>
-        <Button basic color="green">Print</Button>
+        <Button color="green" labelPosition="left" icon="print" content="Print" />
       </Card.Content>
     </Card>
   ); 
