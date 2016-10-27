@@ -1,29 +1,33 @@
 import React, { Component } from 'react';
-import { Grid } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react';
+import objectAssign from 'object-assign';
+
 import PrintJobForm from './PrintJobForm';
 import PrintsFeed from './PrintsFeed';
 import ajaxFetch from './ajax';
 
+const intialState = {
+  prints: [],
+  selectedPrint: null
+};
+
 class Body extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      prints: []
-    }
+    this.state = objectAssign({}, intialState);
   }
 
   appendPrint = (print) => {
     // put new print at the front
     this.state.prints.unshift(print);
 
-    this.setState({
-      prints: this.state.prints
-    });
+    // copy the state with Object.assign just to be safe
+    this.setState(objectAssign({}, this.state));
   }
 
   loadData() {
     ajaxFetch('/api/prints').then(response => response.json()).then(json => {
-      this.setState({ prints: json });
+      this.setState(objectAssign({}, this.state, { prints: json }));
     });
   }
 
