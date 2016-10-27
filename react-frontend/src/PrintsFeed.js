@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Card, Feed, Image } from 'semantic-ui-react'
+
 import avatar from './img/elliot.jpg';
 import { isImageFile, computeFileName } from './utils';
+import ClickableFeedEvent from './ClickableFeedEvent'
 
 class PrintsFeed extends Component {
   /* given the print object from the backend, renders how to view the file
@@ -29,7 +31,7 @@ class PrintsFeed extends Component {
   renderFeedEvents() {
     return this.props.prints.map((print, index) => {
       return (
-        <Feed.Event key={index}>
+        <ClickableFeedEvent enabled={(index & 1) === 1} key={index}>
           <Feed.Label image={avatar} />
           <Feed.Content>
             <Feed.Summary>
@@ -39,7 +41,7 @@ class PrintsFeed extends Component {
             {/* renders a Feed.Extra */}
             {this.renderUploadFile(print)}
           </Feed.Content>
-        </Feed.Event>
+        </ClickableFeedEvent>
       );
     });
   }
