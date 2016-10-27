@@ -29,9 +29,12 @@ class LoginForm extends Component {
   render() {
     return (
       <Form error={this.state.errors.length > 0} onSubmit={this.handleSubmit}>
-        <Form.Input icon="user" label="Username" name="username" type="text" />
-        <Form.Input icon="lock" label="Password" name="password" type="password" />
-        <Button primary type='submit'>Login</Button>
+        <Form.Input icon="user" label="Username" placeholder="Username"
+          name="username" type="text" />
+        <Form.Input icon="lock" label="Password" placeholder="Password"
+          name="password" type="password" />
+        <Button color="teal" icon="user" content="Login" type="submit"
+          labelPosition="left" />
 
         {this.state.errors ?
           <Message
