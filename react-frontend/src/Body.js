@@ -3,11 +3,13 @@ import { Grid } from 'semantic-ui-react';
 import objectAssign from 'object-assign';
 
 import PrintJobForm from './PrintJobForm';
+import PrintJobDetail from './PrintJobDetail';
 import PrintsFeed from './PrintsFeed';
 import ajaxFetch from './ajax';
 
 const intialState = {
   prints: [],
+  isPrintSelected: false,
   selectedPrint: null
 };
 
@@ -36,7 +38,10 @@ class Body extends Component {
   }
 
   onChooseSelectedJob = (index) => {
-    this.setState(objectAssign({}, this.state, { selectedPrint: index }))
+    this.setState(objectAssign({}, this.state, {
+      isPrintSelected: true,
+      selectedPrint: index
+    }));
   }
 
   render() {
@@ -50,10 +55,15 @@ class Body extends Component {
 
           <Grid.Column>
             <PrintJobForm onPrintCreate={this.appendPrint} />
+            {this.state.isPrintSelected ? 
+              <PrintJobDetail print={this.state.prints[this.state.selectedPrint]} />
+            :
+              null
+            }
           </Grid.Column>
         </Grid.Row>
       </Grid>
-    )
+    );
   }
 }
 
