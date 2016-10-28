@@ -46,9 +46,8 @@ class Body extends Component {
 
   deleteActivePrintJob = () => {
     const printObj = this.state.prints[this.state.selectedPrint];
-    const id = printObj;
 
-    return ajaxFetch(`/api/prints/${id}`, {
+    return ajaxFetch(`/api/prints/${printObj.id}`, {
       method: 'DELETE'
     }).then(response => {
       // returns a 204, don't get JSON
