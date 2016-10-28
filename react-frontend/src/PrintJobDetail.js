@@ -34,9 +34,20 @@ const PrintJobDetail = (props) => {
       </Card.Content>
       <Card.Content extra>
         <Button.Group>
-          <Button color="green" labelPosition="left" icon="print" content="Print" />
+          <Button
+            color="green"
+            labelPosition="left"
+            icon="print"
+            content="Print"
+          />
           <Button.Or />
-          <Button color="red" labelPosition="right" icon="delete" content="Delete" />
+          <Button
+            color="red"
+            labelPosition="right"
+            icon="delete"
+            content="Delete"
+            onClick={props.onDeletePrintJob}
+          />
         </Button.Group>
       </Card.Content>
     </Card>
