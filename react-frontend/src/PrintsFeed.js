@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Card, Feed, Image } from 'semantic-ui-react'
+
 import avatar from './img/elliot.jpg';
+import { isImageFile, computeFileName } from './utils';
+import ClickableFeedEvent from './ClickableFeedEvent'
 
 class PrintsFeed extends Component {
   /* given the print object from the backend, renders how to view the file
@@ -8,30 +11,29 @@ class PrintsFeed extends Component {
    * has the right extension, or gives a link to download the file
    */
   renderUploadFile(print) {
-    let fileName = print.file_uploaded.split('/').pop();
-    let fileExt = /(?:\.([^.]+))?$/.exec(print.file_uploaded)[1].toLowerCase();
+    const path = print.file_uploaded;
+    let fileName = computeFileName(path);
 
-    let fileIsImage = fileExt === 'png' || fileExt === 'jpg' ||
-                      fileExt === 'jpeg' || fileExt === 'gif';
-
-    return fileIsImage ? (
+    return isImageFile(path) ? (
       <Feed.Extra images>
         <Image
-          src={print.file_uploaded} href={print.file_uploaded}
+          src={path} href={path}
           shape="rounded" bordered target="_blank"
         />
       </Feed.Extra>
     ) : (
       <Feed.Extra>
-        <a href={print.file_uploaded} target="_blank">{fileName}</a>
+        <a href={path} target="_blank">{fileName}</a>
       </Feed.Extra>
     );
   }
 
   renderFeedEvents() {
+    const onClickPrintJob = (index) => () => this.props.onChooseSelectedJob(index);
+
     return this.props.prints.map((print, index) => {
       return (
-        <Feed.Event key={index}>
+        <ClickableFeedEvent key={index} onClick={onClickPrintJob(index)}>
           <Feed.Label image={avatar} />
           <Feed.Content>
             <Feed.Summary>
@@ -41,7 +43,7 @@ class PrintsFeed extends Component {
             {/* renders a Feed.Extra */}
             {this.renderUploadFile(print)}
           </Feed.Content>
-        </Feed.Event>
+        </ClickableFeedEvent>
       );
     });
   }

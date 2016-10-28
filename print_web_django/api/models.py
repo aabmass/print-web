@@ -11,3 +11,10 @@ class PrintJob(models.Model):
 
     def __str__(self):
         return "PrintJob by {} from {}".format(self.user, self.created)
+
+
+class PrintRun(models.Model):
+    print_job = models.ForeignKey(PrintJob, on_delete=models.CASCADE,
+            related_name='printruns')
+    submitted_on = models.DateTimeField(auto_now_add=True)
+    has_completed = models.BooleanField(default=False)

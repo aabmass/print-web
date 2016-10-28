@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import { Container, Grid, Button } from 'semantic-ui-react'
+import { Container, Grid } from 'semantic-ui-react'
 import LoginPanel from './LoginPanel';
 import Body from './Body';
 
@@ -66,10 +66,7 @@ class App extends Component {
                 user={this.state.user}
               />
             </Grid.Column>
-
-            <Grid.Column>
-              <Button onClick={() => this.doAjax()}>Perform Useless 404 Ajax</Button>
-            </Grid.Column>
+            {/* May put another Column here. Right now it's just cut in half */}
           </Grid.Row>
         </Grid>
 
