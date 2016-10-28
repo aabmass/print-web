@@ -122,7 +122,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_URL = '/static/'
+# server from root since we aren't using any other templates to collide the
+# names with
+STATIC_URL = '/'
 
 # copy the react app from it's build dir
 STATICFILES_DIRS = [
